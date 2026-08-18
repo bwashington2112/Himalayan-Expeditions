@@ -1,0 +1,80 @@
+—checked for null values in peak name, peak id
+SELECT *
+FROM `himalayan-504722.himalayan_expeditions.Peaks`
+WHERE pkname IS NULL;
+
+SELECT *
+FROM `himalayan-504722.himalayan_expeditions.Peaks`
+WHERE peakid IS NULL;
+
+
+—checked for duplicates in peakid
+SELECT
+   peakid,
+   COUNT(*) AS duplicates
+FROM `himalayan-504722.himalayan_expeditions.Peaks`
+GROUP BY peakid
+HAVING COUNT(*) > 1;
+
+
+—checked for pstatus values
+SELECT DISTINCT pstatus
+FROM `himalayan-504722.himalayan_expeditions.Peaks`
+ORDER BY pstatus;
+
+
+—checked for number of climbed and unclimbed peaks
+SELECT pstatus, COUNT(*) AS number_of_peaks
+FROM `himalayan-504722.himalayan_expeditions.Peaks`
+GROUP BY pstatus
+ORDER BY number_of_peaks DESC;
+
+—calculated percent of peaks climbed
+SELECT
+COUNTIF(pstatus = 'Climbed') AS climbed_peaks,
+COUNT(*) AS total_peaks,
+COUNTIF(pstatus = 'Climbed') / COUNT(*) * 100 AS percent_climbed
+FROM `himalayan-504722.himalayan_expeditions.Peaks`;
+
+—checked for expeditions with true values for the success columns
+SELECT expid,
+success1,
+success2,
+success3,
+success4
+FROM `himalayan-504722.himalayan_expeditions.Expeditions`
+WHERE success1 = TRUE OR success2 = TRUE OR success3 = TRUE OR success4 = TRUE;
+
+—checked duplicates in members table
+SELECT
+   expid,
+   membid,
+   COUNT(*) AS duplicates
+FROM `himalayan-504722.himalayan_expeditions.Members`
+GROUP BY expid, membid
+HAVING COUNT(*) > 1;
+
+—found people with most successful expeditions
+SELECT Mem.membid,
+Mem.fname,
+Mem.lname,
+COUNT(exped) AS successful_expeditions
+FROM `himalayan-504722.himalayan_expeditions.Members` AS mem
+LEFT JOIN
+(
+SELECT expid,
+success1,
+success2,
+success3,
+success4
+FROM `himalayan-504722.himalayan_expeditions.Expeditions`
+WHERE success1 = TRUE
+OR success2 = TRUE
+OR success3 = TRUE
+OR success4 = TRUE
+) AS exped
+ON Mem.expid = exped.expid
+GROUP BY membid, fname, lname
+ORDER BY successful_expeditions DESC
+LIMIT 10;
+
