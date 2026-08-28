@@ -1,5 +1,5 @@
 # Project Overview
-This project serves to analyze historical Himalayan Expeditions data provided by Maven Analytics utilizing BigQuery SQL and visualizing the results with Tableau Public.
+This project analyzes historical Himalayan Expeditions data provided by Maven Analytics utilizing BigQuery SQL and visualizing the results with Tableau Public.
 # Project Objective
 The objective of this project is to answer these questions:
   - What percentage of peaks have been climbed?
