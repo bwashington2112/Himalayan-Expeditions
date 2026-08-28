@@ -7,3 +7,7 @@ The objective of this project is to answer these questions:
 # Key Findings
   - 76.66% or 368 out of 480 peaks have been successfully climbed
   - Paul Marc Grobel has the most successful expeditions 
+# Tools Used
+  - SQL
+  - Google BigQuery
+  - Tableau Public
